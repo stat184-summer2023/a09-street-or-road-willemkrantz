@@ -62,12 +62,10 @@ My answer here......
 
 ```{r}
 pattern <- "(ST|RD|ROAD)"
-LeftOvers <-
-  Addresses %>% 
+LeftOvers <-Addresses %>% 
   filter( !grepl(pattern, address),
           !grepl("\\sAPT|UNIT\\s[\\d]+$", address),
-          !grepl(" BOX ", address)
-          )
+          !grepl(" BOX ", address))
 ```
 
 My answer here.......
@@ -81,16 +79,25 @@ line 4 filters by pattern specifically apartment, unit, po box and address.
 #### Part 2: Implement your method on the entire `Addresses` data set. Explain how your code works line by line.
 
 ```{r}
-
+pattern <- "(ST|RD|ROAD)"
+LeftOvers <-Addresses %>% 
+  filter( !grepl(pattern, address),
+          !grepl("\\sAPT|UNIT\\s[\\d]+$", address),
+          !grepl(" BOX ", address))
 
 
 ```
 
 My answer here.......
+Same as the prior code the pattern defines the 3 endings we are looking for. LeftOvers becomes the new data set title. The filter function allows us to filter out answers so that we are only left with that we want which are endings without ST,RD, or ROAD
 
 #### Additional Question 1: Present your result from part 2 by providing a table in descending order of popularity for the street name endings you found
 
 ```{r}
+EndingsCount<-Addresses%>%
+  filter(grepl(pattern, address))%>%
+  count(address = str_extract(address, pattern))%>%
+  arrange(desc(n))
 
 
 ```
@@ -100,9 +107,19 @@ My answer here.......
 Note: make sure your order street names according to popularity, not alphabetically.
 
 ```{r}
+library(ggplot2)
+
+EndingsCount%>%
+  ggplot(aes(x=address, y=n))+geom_bar(stat= "identity")+labs(x= "Endings", y="Frequency")
+
+
+
 
 ```
 
 #### Additional Question 3: Comment on any patterns you see
 
 My answer here.......
+
+RD and ROAD have the same meaning yet RD is used far more often which makes sense as RD takes up less space on a sign, but again means the same thing as ROAD. 
+
