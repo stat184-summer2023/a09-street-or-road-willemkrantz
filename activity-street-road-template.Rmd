@@ -1,6 +1,6 @@
 ---
 title: "Activity: Street or Road?"
-author: "YOUR NAME HERE"
+author: "Willem Krantz"
 output: html_notebook
 ---
 
@@ -8,10 +8,15 @@ output: html_notebook
 
 ```{r}
 #load libraries 
-
+library(tidyverse)
+library(dcData)
+library(esquisse)
 #load in the data here 
 # we will only be using the "street-addresses.csv" file from the text
 
+
+
+  
 
 
 ```
@@ -19,27 +24,38 @@ output: html_notebook
 ## Recreate Solved Example using `sample(50)`
 
 ```{r}
+Addresses<-read_csv("https://mdbeckman.github.io/dcSupplement/data/street-addresses.csv")
+Sample<-
+  Addresses%>%
+  sample_n(size=50)
 
-
+Matches<-
+  Sample%>%
+  filter(grepl(pattern= "PO", address))
 ```
 
 ## Recreate Soved Example using the entire `Address` data set
 
 ```{r}
-
+Dont<-
+  Sample%>%
+  filter(!grepl(pattern="PO",address))
 
 ```
 
 #### Additional Question: How many addresses are a PO BOX (including NCSU BOX)? 
 
 ```{r}
+Sample%>%
+   filter(grepl(pattern= "PO", address))%>%
+  summarise(count=n())
 
 
 ```
 
 My answer here...... 
 
-
+33
 ## Back to the Streets: Your Turn
 
 #### Part 1: Explain (in english) each line of the following code chunk
@@ -55,6 +71,12 @@ LeftOvers <-
 ```
 
 My answer here.......
+line one names the new table 
+line 2 defines it as leftovers 
+line 3 pulls from our addresses 
+line 4 filters by pattern specifically apartment, unit, po box and address. 
+
+
 
 #### Part 2: Implement your method on the entire `Addresses` data set. Explain how your code works line by line.
 
